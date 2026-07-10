@@ -1,0 +1,359 @@
+/* ===== Slide plein écran style panneau publicitaire ===== */
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out; /* fondu enchaîné */
+  z-index: 1;
+  pointer-events: none;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Album avec texte : mise en page en deux colonnes */
+.slide--album-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.slide--album-text .slide-fill {
+  display: none;
+}
+
+/* ===== Fond flou de remplissage =====
+   Reprend le visuel en couvrant tout l'écran, flouté et assombri,
+   pour habiller les bandes autour du média affiché en entier. */
+.slide-fill {
+  position: absolute;
+  inset: -5%;
+  width: 110%;
+  height: 110%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) brightness(0.5);
+  transform: scale(1.1);
+}
+
+.slide-fill--gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f5576c 100%);
+  filter: none;
+}
+
+/* Léger mouvement continu du fond (effet vivant, sans rogner le média). */
+.slide.active .slide-fill {
+  animation: fillDrift 12s ease-in-out infinite alternate;
+}
+
+@keyframes fillDrift {
+  from { transform: scale(1.1) translate(0, 0); }
+  to   { transform: scale(1.18) translate(-2%, -2%); }
+}
+
+/* ===== Scène : média affiché dans sa totalité ===== */
+.slide-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Album avec texte : le stage prend la partie supérieure */
+.slide--album-text .slide-stage {
+  position: relative;
+  flex: 1;
+  height: auto;
+  min-height: 60%;
+  align-items: stretch; /* les photos remplissent depuis le haut */
+}
+
+.slide-media {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* affiche la TOTALITÉ du visuel, sans rogner */
+  display: block;
+  box-shadow: 0 10px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Apparition en douceur du média sur la slide active. */
+.slide.active .slide-media {
+  animation: mediaIn 1s ease-out;
+}
+
+@keyframes mediaIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ===== Galerie d'images (album) ===== */
+.slide-gallery {
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+  padding: 32px;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  align-content: start; /* les images commencent en haut */
+  justify-items: stretch;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+/* Album avec texte : ajuster la galerie */
+.slide--album-text .slide-gallery {
+  padding: 20px;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.slide-gallery-item {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: galleryItemIn 0.7s ease-out;
+}
+
+.slide-gallery-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.slide-gallery-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.slide-gallery-item:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.slide-gallery-item:nth-child(n+5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes galleryItemIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Post texte seul. */
+.slide-textonly {
+  max-width: 70%;
+  padding: 4vh 4vw;
+  text-align: center;
+}
+
+.slide-textonly p {
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 5rem);
+  font-weight: 700;
+  line-height: 1.35;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== Voile dégradé bas ===== */
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.3) 25%,
+    rgba(0, 0, 0, 0) 45%
+  );
+}
+
+/* ===== Badges (vidéo / album) ===== */
+.slide-badges {
+  position: absolute;
+  top: 4vh;
+  left: 4vw;
+  z-index: 5;
+  display: flex;
+  gap: 12px;
+}
+
+.slide-badge {
+  color: #fff;
+  font-size: clamp(0.9rem, 1.3vw, 1.4rem);
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  padding: 0.4em 0.9em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ===== Contenu texte en surimpression ===== */
+.slide-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  /* padding-bottom augmenté pour laisser la place à la barre (7vh). */
+  padding: 3vh 5vw calc(8vh + 2vh);
+  display: flex;
+  flex-direction: column;
+  gap: 1.6vh;
+  max-height: 40%;
+  overflow-y: auto;
+}
+
+/* Album avec texte : le texte est en bas sans surimpression */
+.slide--album-text .slide-content {
+  position: relative;
+  background: #1a1a1a;
+  padding: 4vh 5vw calc(7vh + 2vh);
+  flex: 0 0 auto;
+  max-height: 40%;
+  overflow-y: auto;
+}
+
+.slide--album-text .slide-overlay {
+  display: none;
+}
+
+.slide-message {
+  color: #fff;
+  font-size: clamp(1.4rem, 2.6vw, 3rem);
+  line-height: 1.4;
+  font-weight: 700;
+  margin: 0;
+  max-width: 100%;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(10px);
+}
+
+/* Entrée professionnelle "focus-in" : le texte se révèle en devenant
+   net (blur → 0) tout en remontant et en apparaissant, avec une
+   accélération douce. */
+.slide.active .slide-message {
+  animation: msgFocusIn 1.1s cubic-bezier(0.16, 0.84, 0.24, 1) 0.35s forwards;
+}
+
+@keyframes msgFocusIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ===== Texte défilant (affiche l'intégralité du message) ===== */
+.scroll-box {
+  max-height: 32vh;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Fondus doux en haut et en bas pendant le défilement : le texte
+   apparaît et disparaît progressivement aux bords (rendu pro), au lieu
+   d'être coupé net. Appliqué uniquement quand le texte défile. */
+.scroll-box.has-scroll {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+}
+
+.scroll-inner {
+  will-change: transform;
+  white-space: pre-wrap; /* conserve les retours à la ligne du post */
+  text-align: start;     /* suit la direction : arabe → droite, latin → gauche */
+}
+
+.scroll-inner.scrolling {
+  animation: vScroll var(--dur, 16s) cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+
+/* Pause en haut, défilement fluide, pause en bas, puis retour (alternate). */
+@keyframes vScroll {
+  0%, 16%   { transform: translateY(0); }
+  84%, 100% { transform: translateY(var(--scroll, 0)); }
+}
+
+/* Pour un post texte seul, le bloc peut être plus haut. */
+.slide-textonly .scroll-box {
+  max-height: 70vh;
+}
+
+.slide-meta {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.slide.active .slide-meta {
+  animation: metaIn 0.9s cubic-bezier(0.16, 0.84, 0.24, 1) 0.7s forwards;
+}
+
+@keyframes metaIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-date {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.9rem, 1.3vw, 1.5rem);
+  font-weight: 500;
+  text-transform: capitalize;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
+}
+
+.slide-stats {
+  display: flex;
+  gap: 1.2vw;
+}
+
+.slide-stat {
+  color: #fff;
+  font-size: clamp(0.9rem, 1.3vw, 1.5rem);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 0.35em 0.85em;
+  border-radius: 999px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}

@@ -1,0 +1,65 @@
+/* ===== Barre horloge + météo (petite, haut droite) ===== */
+.status-bar {
+  position: absolute;
+  top: 2.5vh;
+  right: 3vw;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Horloge */
+.status-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.05;
+}
+
+.status-time {
+  font-size: clamp(0.95rem, 1.3vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.status-date {
+  font-size: clamp(0.6rem, 0.75vw, 0.85rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: capitalize;
+}
+
+/* Météo */
+.status-weather {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.status-weather-icon {
+  font-size: clamp(1rem, 1.4vw, 1.6rem);
+}
+
+.status-temp {
+  font-size: clamp(0.9rem, 1.2vw, 1.4rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.status-city {
+  font-size: clamp(0.6rem, 0.75vw, 0.85rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}

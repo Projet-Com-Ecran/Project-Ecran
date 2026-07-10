@@ -1,0 +1,136 @@
+/* ===== Bandeau permanent Coupe du Monde (bas de l'écran) ===== */
+.wc-ticker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 7vh;
+  min-height: 52px;
+  z-index: 20;
+  display: flex;
+  align-items: stretch;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(10, 10, 20, 0.85) 100%);
+  backdrop-filter: blur(8px);
+  border-top: 2px solid #f5576c;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Titre fixe à gauche */
+.ticker-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6vw;
+  padding: 0 1.6vw;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  font-weight: 800;
+  font-size: clamp(0.9rem, 1.4vw, 1.5rem);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.ticker-ball {
+  font-size: 1.4em;
+  animation: ballspin 3s linear infinite;
+}
+
+@keyframes ballspin {
+  to { transform: rotate(360deg); }
+}
+
+/* Zone défilante */
+.ticker-viewport {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  animation: tickerScroll 40s linear infinite;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Un match */
+.ticker-match {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7vw;
+  padding: 0 1vw;
+  font-size: clamp(0.85rem, 1.3vw, 1.4rem);
+}
+
+.ticker-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5vw;
+}
+
+.ticker-badge {
+  height: clamp(24px, 3vh, 38px);
+  width: auto;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.ticker-name {
+  font-weight: 600;
+}
+
+/* Score terminé */
+.ticker-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 1.15em;
+  color: #ffe14d;
+  padding: 0 0.4vw;
+}
+
+.ticker-sep {
+  opacity: 0.7;
+}
+
+.ticker-pen {
+  font-size: 0.7em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin-left: 4px;
+}
+
+/* Match à venir */
+.ticker-vs {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.05;
+  padding: 0 0.4vw;
+}
+
+.ticker-vs-label {
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.ticker-date {
+  font-size: 0.7em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Séparateur entre matchs */
+.ticker-dot {
+  color: #f5576c;
+  font-size: 1.4em;
+  margin: 0 0.6vw;
+}
