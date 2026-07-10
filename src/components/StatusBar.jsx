@@ -68,7 +68,9 @@ export default function StatusBar() {
     hour: '2-digit',
     minute: '2-digit',
   });
-  const date = now.toLocaleDateString('fr-FR', {
+  // Date en arabe (noms du jour/mois en arabe), chiffres en style latin
+  // pour rester cohérent avec l'heure.
+  const date = now.toLocaleDateString('ar-MA-u-nu-latn', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -80,14 +82,14 @@ export default function StatusBar() {
     <div className="status-bar">
       <div className="status-clock">
         <span className="status-time">{time}</span>
-        <span className="status-date">{date}</span>
+        <span className="status-date" dir="rtl">{date}</span>
       </div>
 
       {weather && (
         <div className="status-weather" title={w.label}>
           <span className="status-weather-icon">{w.icon}</span>
           <span className="status-temp">{weather.temp}°C</span>
-          <span className="status-city">{FACEBOOK_CONFIG.WEATHER.CITY}</span>
+          <span className="status-city" dir="rtl">{FACEBOOK_CONFIG.WEATHER.CITY}</span>
         </div>
       )}
     </div>

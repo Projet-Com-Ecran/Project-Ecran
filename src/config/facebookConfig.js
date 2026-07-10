@@ -31,7 +31,7 @@ export const FACEBOOK_CONFIG = {
   WEATHER: {
     LATITUDE: 33.001,
     LONGITUDE: -7.616,
-    CITY: 'Settat',
+    CITY: 'سطات',
     REFRESH: 10 * 60 * 1000, // rafraîchir la météo toutes les 10 min
   },
 
